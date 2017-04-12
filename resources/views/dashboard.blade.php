@@ -23,19 +23,29 @@
             </header>
             @foreach($posts as $post)
             <article class="post" data-postid="{{$post->id}}">
-                <p>{{$post->body}}</p>
-                <div class="info">
-                    Posted by {{$post->user->first_name}} on {{$post->created_at}}
-                </div>
-                <div class="interaction">
-                    <a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like' }}</a>
-                    <a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 0 ? 'You don\'t like this post' : 'Dislike' : 'Dislike' }}</a>
-                    @if(Auth::user() == $post->user)
-                        <a href="#" class="edit">Edit</a>
-                        <a href="{{ route('post.delete', ['post_id' => $post->id]) }}">Delete</a>
-                    @endif
+                <div class="row">
+                    <div class="col-md-3">
+                        @if (Storage::disk('local')->has($post->user->first_name . '-' . $post->user->id . '.jpg'))
+                                    <img src="{{ route('account.image', ['filename' => $post->user->first_name . '-' . $post->user->id . '.jpg']) }}" alt="" class="img-responsive">
+                        @endif
+                    </div>
+                    <div class="col-md-9">
+                        <p>{{$post->body}}</p>
+                        <div class="info">
+                            Posted by {{$post->user->first_name}} on {{$post->created_at}}
+                        </div>
+                        <div class="interaction">
+                            <a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like' }}</a>
+                            <a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 0 ? 'You don\'t like this post' : 'Dislike' : 'Dislike' }}</a>
+                            @if(Auth::user() == $post->user)
+                                <a href="#" class="edit">Edit</a>
+                                <a href="{{ route('post.delete', ['post_id' => $post->id]) }}">Delete</a>
+                            @endif
 
+                        </div>
+                    </div>
                 </div>
+
             </article>
             @endforeach
         </div>
