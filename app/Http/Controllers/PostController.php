@@ -64,6 +64,8 @@ class PostController extends Controller
         if(!$post){
             return null;
         }
+
+
         $user = Auth::user();
         $like = $user->likes()->where('post_id', $post_id)->first();
         if($like){

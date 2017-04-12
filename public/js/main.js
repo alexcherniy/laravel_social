@@ -30,7 +30,7 @@ $('#modal-save').on('click', function(){
 $('.like').on('click', function(event){
     event.preventDefault();
     var isLike = event.target.previousElementSibling == null;
-    postId = event.target.parentNode.parentNode.dataset['postid'];
+    postId = event.target.parentNode.parentNode.parentNode.parentNode.dataset['postid'];
    $.ajax({
        method: 'POST',
         url: urlLike,
